@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "EntityBenchmark": {
+      "commandName": "Project"
+    },
+    "Container (Dockerfile)": {
+      "commandName": "Docker"
+    }
+  }
+}
