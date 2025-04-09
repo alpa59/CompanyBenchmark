@@ -1,16 +1,14 @@
-using EntityBenchmark.Entity;
 using EntityBenchmark.Models;
 using System.Text;
 
 public class BenchmarkRunner {
-    private readonly EntityDatabaseBenchmark _repository;
+    private readonly IDatabaseBenchmark _repository;
 
-    public BenchmarkRunner(EntityDatabaseBenchmark repository) {
+    public BenchmarkRunner(IDatabaseBenchmark repository) {
         this._repository = repository;
     }
 
-    public void RunBenchmarks() {
-        var csvFilePath = Path.Combine("/app/output", "BenchmarkResults.csv");
+    public void RunBenchmarks(string csvFilePath) {
         var csvBuilder = new StringBuilder();
         csvBuilder.AppendLine("Run;MethodName;Duration(ms)");
 
@@ -23,9 +21,9 @@ public class BenchmarkRunner {
             var parent = new Parent {
                 Name = $"Parent_{i}",
                 Children = new List<Child> {
-                new (){ Name = $"Child_{i}_1" },
-                new (){ Name = $"Child_{i}_2" }
-            }
+                       new () { Name = $"Child_{i}_1" },
+                       new () { Name = $"Child_{i}_2" }
+                   }
             };
             benchmarks.Add(BenchmarkMethod(() => _repository.InsertParentWithChildren(parent), "InsertParentWithChildren"));
 
@@ -49,15 +47,10 @@ public class BenchmarkRunner {
             Console.WriteLine();
         }
 
-        // Write CSV data to file with FileShare.ReadWrite
-        using (var fileStream = new FileStream(csvFilePath, FileMode.Create, FileAccess.Write, FileShare.ReadWrite))
-        using (var streamWriter = new StreamWriter(fileStream, Encoding.UTF8)) {
-            streamWriter.Write(csvBuilder.ToString());
-        }
-
+        // Write CSV data to file
+        File.WriteAllText(csvFilePath, csvBuilder.ToString());
         Console.WriteLine($"Benchmark results saved to: {csvFilePath}");
     }
-
 
     private static (string MethodName, TimeSpan Duration) BenchmarkMethod(Action method, string methodName) {
         var start = DateTime.Now;

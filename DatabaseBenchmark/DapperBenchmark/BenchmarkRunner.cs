@@ -1,11 +1,10 @@
-using EntityBenchmark.Entity;
 using EntityBenchmark.Models;
 using System.Text;
 
 public class BenchmarkRunner {
-    private readonly EntityDatabaseBenchmark _repository;
+    private readonly DapperDatabaseBenchmark _repository;
 
-    public BenchmarkRunner(EntityDatabaseBenchmark repository) {
+    public BenchmarkRunner(DapperDatabaseBenchmark repository) {
         this._repository = repository;
     }
 
@@ -23,9 +22,9 @@ public class BenchmarkRunner {
             var parent = new Parent {
                 Name = $"Parent_{i}",
                 Children = new List<Child> {
-                new (){ Name = $"Child_{i}_1" },
-                new (){ Name = $"Child_{i}_2" }
-            }
+                    new () { Name = $"Child_{i}_1" },
+                    new () { Name = $"Child_{i}_2" }
+                }
             };
             benchmarks.Add(BenchmarkMethod(() => _repository.InsertParentWithChildren(parent), "InsertParentWithChildren"));
 
@@ -57,7 +56,6 @@ public class BenchmarkRunner {
 
         Console.WriteLine($"Benchmark results saved to: {csvFilePath}");
     }
-
 
     private static (string MethodName, TimeSpan Duration) BenchmarkMethod(Action method, string methodName) {
         var start = DateTime.Now;

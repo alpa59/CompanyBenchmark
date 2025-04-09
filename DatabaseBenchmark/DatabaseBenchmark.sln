@@ -7,9 +7,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntityBenchmark", "EntityBe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DapperBenchmark", "DapperBenchmark\DapperBenchmark.csproj", "{A978E0B4-97CF-4AE2-A019-539FF7F75EA1}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "database", "database", "{8EC462FD-D22E-90A8-E5CE-7E832BA40C5D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Benchmarking", "Benchmarking\Benchmarking.csproj", "{6AA3F0CB-6F7F-48AE-B0E1-7DEE5C5A24F4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrasructure", "Infrasructure", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 	ProjectSection(SolutionItems) = preProject
-		compose.yml = compose.yml
+		compose.yaml = compose.yaml
+		Dockerfile = Dockerfile
+		run.ps1 = run.ps1
 	EndProjectSection
 EndProject
 Global
@@ -26,6 +30,10 @@ Global
 		{A978E0B4-97CF-4AE2-A019-539FF7F75EA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A978E0B4-97CF-4AE2-A019-539FF7F75EA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A978E0B4-97CF-4AE2-A019-539FF7F75EA1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6AA3F0CB-6F7F-48AE-B0E1-7DEE5C5A24F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6AA3F0CB-6F7F-48AE-B0E1-7DEE5C5A24F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6AA3F0CB-6F7F-48AE-B0E1-7DEE5C5A24F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6AA3F0CB-6F7F-48AE-B0E1-7DEE5C5A24F4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
