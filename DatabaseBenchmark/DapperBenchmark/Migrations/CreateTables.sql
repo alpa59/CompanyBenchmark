@@ -1,12 +1,18 @@
 USE DapperDatabase;
 
-CREATE TABLE Parent (
-    Id INT PRIMARY KEY IDENTITY(1,1),
-    Name NVARCHAR(50) NOT NULL
-);
+IF NOT EXISTS (SELECT * FROM sysobjects WHERE name = 'Parent' AND xtype = 'U')
+BEGIN
+    CREATE TABLE Parent (
+        Id INT PRIMARY KEY,
+        Name NVARCHAR(100) NOT NULL
+    );
+END;
 
-CREATE TABLE Child (
-    Id INT PRIMARY KEY IDENTITY(1,1),
-    Name NVARCHAR(50) NOT NULL,
-    ParentId INT NOT NULL FOREIGN KEY REFERENCES Parent(Id)
-);
+IF NOT EXISTS (SELECT * FROM sysobjects WHERE name = 'Parent' AND xtype = 'U')
+BEGIN
+    CREATE TABLE Child (
+        Id INT PRIMARY KEY IDENTITY(1,1),
+        Name NVARCHAR(50) NOT NULL,
+        ParentId INT NOT NULL FOREIGN KEY REFERENCES Parent(Id)
+    );
+END;

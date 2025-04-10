@@ -19,7 +19,7 @@ public class DapperDatabaseBenchmark : IDatabaseBenchmark {
         try {
             // Insert Parent
             var parentId = connection.QuerySingle<int>(
-                "INSERT INTO Parents (Name) OUTPUT INSERTED.Id VALUES (@Name);",
+                "INSERT INTO Parent (Name) OUTPUT INSERTED.Id VALUES (@Name);",
                 new { parent.Name },
                 transaction
             );
@@ -27,7 +27,7 @@ public class DapperDatabaseBenchmark : IDatabaseBenchmark {
             // Insert Children
             foreach (var child in parent.Children) {
                 connection.Execute(
-                    "INSERT INTO Children (Name, ParentId) VALUES (@Name, @ParentId);",
+                    "INSERT INTO Child (Name, ParentId) VALUES (@Name, @ParentId);",
                     new { child.Name, ParentId = parentId },
                     transaction
                 );
@@ -47,8 +47,8 @@ public class DapperDatabaseBenchmark : IDatabaseBenchmark {
 
         var parents = connection.Query<Parent, Child, Parent>(
             @"SELECT p.Id, p.Name, c.Id, c.Name, c.ParentId
-              FROM Parents p
-              LEFT JOIN Children c ON p.Id = c.ParentId;",
+              FROM Parent p
+              LEFT JOIN Child c ON p.Id = c.ParentId;",
             (parent, child) => {
                 if (!parentDictionary.TryGetValue(parent.Id, out var parentEntry)) {
                     parentEntry = parent;
@@ -75,7 +75,7 @@ public class DapperDatabaseBenchmark : IDatabaseBenchmark {
         try {
             // Update Parent
             connection.Execute(
-                "UPDATE Parents SET Name = @Name WHERE Id = @Id;",
+                "UPDATE Parent SET Name = @Name WHERE Id = @Id;",
                 new { parent.Name, parent.Id },
                 transaction
             );
@@ -83,7 +83,7 @@ public class DapperDatabaseBenchmark : IDatabaseBenchmark {
             // Update Children
             foreach (var child in parent.Children) {
                 connection.Execute(
-                    "UPDATE Children SET Name = @Name WHERE Id = @Id;",
+                    "UPDATE Child SET Name = @Name WHERE Id = @Id;",
                     new { child.Name, child.Id },
                     transaction
                 );
@@ -105,14 +105,14 @@ public class DapperDatabaseBenchmark : IDatabaseBenchmark {
         try {
             // Delete Children
             connection.Execute(
-                "DELETE FROM Children WHERE ParentId = @ParentId;",
+                "DELETE FROM Child WHERE ParentId = @ParentId;",
                 new { ParentId = parentId },
                 transaction
             );
 
             // Delete Parent
             connection.Execute(
-                "DELETE FROM Parents WHERE Id = @Id;",
+                "DELETE FROM Parent WHERE Id = @Id;",
                 new { Id = parentId },
                 transaction
             );

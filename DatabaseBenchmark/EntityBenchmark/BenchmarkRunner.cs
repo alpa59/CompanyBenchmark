@@ -10,7 +10,7 @@ public class BenchmarkRunner {
     }
 
     public void RunBenchmarks() {
-        var csvFilePath = Path.Combine("/app/output", "BenchmarkResults.csv");
+        var csvFilePath = Path.Combine("/app/output", "EntityBenchmarkResults.csv");
         var csvBuilder = new StringBuilder();
         csvBuilder.AppendLine("Run;MethodName;Duration(ms)");
 
