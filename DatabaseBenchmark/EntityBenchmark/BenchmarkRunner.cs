@@ -12,12 +12,13 @@ public class BenchmarkRunner {
     public void RunBenchmarks() {
         var csvFilePath = Path.Combine("/app/output", "EntityBenchmarkResults.csv");
         var csvBuilder = new StringBuilder();
-        csvBuilder.AppendLine("Run;MethodName;Duration(ms)");
+        csvBuilder.AppendLine("Run,MethodName,Duration(ms),MemoryUsed(bytes)");
 
         for (int i = 0; i < 1000; i++) {
             Console.WriteLine($"Run {i + 1}:");
 
-            var benchmarks = new List<(string MethodName, TimeSpan Duration)>();
+            var benchmarks = new List<(string MethodName, TimeSpan Duration, long MemoryUsed)>();
+
 
             // Insert Parent with Children
             var parent = new Parent {
@@ -32,18 +33,25 @@ public class BenchmarkRunner {
             // Get Parents with Children
             benchmarks.Add(BenchmarkMethod(() => _repository.GetParentsWithChildren(), "GetParentsWithChildren"));
 
+
+
             // Update Parent with Children
-            parent.Name = $"Updated_Parent_{i}";
-            var childrenList = parent.Children.ToList();
-            childrenList[0].Name = $"Updated_Child_{i}_1";
-            parent.Children = childrenList;
-            benchmarks.Add(BenchmarkMethod(() => _repository.UpdateParentWithChildren(parent), "UpdateParentWithChildren"));
+            var latestParent = _repository.GetLatestParent();
+            if (latestParent != null) {
+                latestParent.Name = $"Updated_Parent_{i}";
+                var childrenList = latestParent.Children.ToList();
+                childrenList[0].Name = $"Updated_Child_{i}_1";
+                latestParent.Children = childrenList;
+                benchmarks.Add(BenchmarkMethod(() => _repository.UpdateParentWithChildren(latestParent), "UpdateParentWithChildren"));
+            } else {
+                Console.WriteLine("No parent found to update.");
+            }
 
             // Delete Parent with Children
             benchmarks.Add(BenchmarkMethod(() => _repository.DeleteParentWithChildren(parent.Id), "DeleteParentWithChildren"));
 
             foreach (var benchmark in benchmarks) {
-                csvBuilder.AppendLine($"{i + 1};{benchmark.MethodName};{benchmark.Duration.TotalMilliseconds:F4}");
+                csvBuilder.AppendLine($"{i + 1},{benchmark.MethodName},{benchmark.Duration.TotalMilliseconds:F4},{benchmark.MemoryUsed}");
             }
 
             Console.WriteLine();
@@ -59,10 +67,15 @@ public class BenchmarkRunner {
     }
 
 
-    private static (string MethodName, TimeSpan Duration) BenchmarkMethod(Action method, string methodName) {
+    private static (string MethodName, TimeSpan Duration, long MemoryUsed) BenchmarkMethod(Action method, string methodName) {
+        var startMemory = GC.GetTotalMemory(true); // Get memory before execution
         var start = DateTime.Now;
+
         method();
+
         var end = DateTime.Now;
-        return (methodName, end - start);
+        var endMemory = GC.GetTotalMemory(false); // Get memory after execution
+
+        return (methodName, end - start, endMemory - startMemory);
     }
 }

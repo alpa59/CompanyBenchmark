@@ -22,6 +22,11 @@ namespace EntityBenchmark.Entity {
             return _context.Parents.Include(p => p.Children).ToList();
         }
 
+        public Parent GetLatestParent() {
+            return _context.Parents.Include(p => p.Children).OrderByDescending(p => p.Id).FirstOrDefault();
+        }
+
+
         // Update Parent and all its Children
         public void UpdateParentWithChildren(Parent parent) {
             var existingParent = _context.Parents.Include(p => p.Children).FirstOrDefault(p => p.Id == parent.Id);
