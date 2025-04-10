@@ -10,16 +10,16 @@
 
   <ItemGroup>
     <PackageReference Include="Dapper" Version="2.1.66" />
+    <PackageReference Include="dbup-sqlserver" Version="6.0.0" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="6.0.1" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.2" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Dapper\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Benchmarking\Benchmarking.csproj" />
+	  <Content Include="Migrations\*.sql">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <ProjectReference Include="..\Benchmarking\Benchmarking.csproj" />
   </ItemGroup>
 
 </Project>

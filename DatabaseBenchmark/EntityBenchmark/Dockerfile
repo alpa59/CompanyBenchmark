@@ -10,10 +10,11 @@ WORKDIR /app
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["EntityBenchmark.csproj", "."]
-RUN dotnet restore "./EntityBenchmark.csproj"
+COPY ["EntityBenchmark/EntityBenchmark.csproj", "EntityBenchmark/"]
+COPY ["Benchmarking/Benchmarking.csproj", "Benchmarking/"]
+RUN dotnet restore "./EntityBenchmark/EntityBenchmark.csproj"
 COPY . .
-WORKDIR "/src/."
+WORKDIR "/src/EntityBenchmark"
 RUN dotnet build "./EntityBenchmark.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 # This stage is used to publish the service project to be copied to the final stage

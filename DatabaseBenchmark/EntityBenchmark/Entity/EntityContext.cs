@@ -1,4 +1,4 @@
-﻿using EntityBenchmark.Models;
+﻿using Benchmarking.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace EntityBenchmark.Entity {

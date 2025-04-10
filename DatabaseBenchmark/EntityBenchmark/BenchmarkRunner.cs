@@ -1,5 +1,5 @@
+using Benchmarking.Models;
 using EntityBenchmark.Entity;
-using EntityBenchmark.Models;
 using System.Text;
 
 public class BenchmarkRunner {

@@ -1,4 +1,4 @@
-using EntityBenchmark.Models;
+using Benchmarking.Models;
 
 public interface IDatabaseBenchmark {
     void InsertParentWithChildren(Parent parent);

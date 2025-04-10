@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace EntityBenchmark.Models {
+namespace Benchmarking.Models {
     public class Parent {
         [Key]
         public int Id { get; set; }

@@ -1,5 +1,5 @@
+using Benchmarking.Models;
 using Dapper;
-using EntityBenchmark.Models;
 using Microsoft.Data.SqlClient;
 using System.Data;
 using System.Data.SqlClient;

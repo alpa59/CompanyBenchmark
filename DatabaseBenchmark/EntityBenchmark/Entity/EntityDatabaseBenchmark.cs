@@ -1,10 +1,10 @@
-﻿using EntityBenchmark.Models;
+﻿using Benchmarking.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace EntityBenchmark.Entity {
-    public class EntityDatabaseBenchmark {
+    public class EntityDatabaseBenchmark : IDatabaseBenchmark {
         private readonly EntityContext _context;
 
         public EntityDatabaseBenchmark(EntityContext context) {
