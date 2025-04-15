@@ -12,12 +12,15 @@ namespace EntityBenchmark.Entity {
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
-            // Configure Parent-Child relationship
             modelBuilder.Entity<Parent>()
-                .HasMany(p => p.Children);
+                .HasMany(p => p.Children)
+                .WithOne(c => c.Parent)         // <-- link back to Parent
+                .HasForeignKey(c => c.ParentId) // <-- define FK
+                .OnDelete(DeleteBehavior.Cascade); // <-- enable cascade delete
 
             base.OnModelCreating(modelBuilder);
         }
+
 
         public void EnsureDatabaseCreated() {
             Database.EnsureCreated();

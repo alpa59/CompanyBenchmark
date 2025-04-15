@@ -8,6 +8,7 @@ namespace Benchmarking.Models {
 
         [Required, MaxLength(50)]
         public required string Name { get; set; }
-
+        public int ParentId { get; set; }
+        public Parent Parent { get; set; } = null!;
     }
 }

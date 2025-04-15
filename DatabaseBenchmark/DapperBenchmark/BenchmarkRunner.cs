@@ -45,7 +45,7 @@ public class BenchmarkRunner {
             }
 
             // Delete Parent with Children
-            benchmarks.Add(BenchmarkMethod(() => _repository.DeleteParentWithChildren(parent.Id), "DeleteParentWithChildren"));
+            benchmarks.Add(BenchmarkMethod(() => _repository.DeleteParentWithChildren(latestParent.Id), "DeleteParentWithChildren"));
 
             foreach (var benchmark in benchmarks) {
                 csvBuilder.AppendLine($"{i + 1},{benchmark.MethodName},{benchmark.Duration.TotalMilliseconds:F4},{benchmark.MemoryUsed}");
