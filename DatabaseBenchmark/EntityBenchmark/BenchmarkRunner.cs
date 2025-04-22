@@ -1,5 +1,6 @@
 using Benchmarking.Models;
 using EntityBenchmark.Entity;
+using System.Globalization;
 using System.Text;
 
 public class BenchmarkRunner {
@@ -12,7 +13,7 @@ public class BenchmarkRunner {
     public void RunBenchmarks() {
         var csvFilePath = Path.Combine("/app/output", "EntityBenchmarkResults.csv");
         var csvBuilder = new StringBuilder();
-        csvBuilder.AppendLine("Run,MethodName,Duration(ms),MemoryUsed(bytes)");
+        csvBuilder.AppendLine("Run;MethodName;Duration(ms);MemoryUsed(bytes)");
 
         for (int i = 0; i < 1000; i++) {
             Console.WriteLine($"Run {i + 1}:");
@@ -51,7 +52,8 @@ public class BenchmarkRunner {
             benchmarks.Add(BenchmarkMethod(() => _repository.DeleteParentWithChildren(parent.Id), "DeleteParentWithChildren"));
 
             foreach (var benchmark in benchmarks) {
-                csvBuilder.AppendLine($"{i + 1},{benchmark.MethodName},{benchmark.Duration.TotalMilliseconds:F4},{benchmark.MemoryUsed}");
+                var duration = benchmark.Duration.TotalMilliseconds.ToString("F4", CultureInfo.GetCultureInfo("da-DK"));
+                csvBuilder.AppendLine($"{i + 1};{benchmark.MethodName};{duration};{benchmark.MemoryUsed}");
             }
 
             Console.WriteLine();

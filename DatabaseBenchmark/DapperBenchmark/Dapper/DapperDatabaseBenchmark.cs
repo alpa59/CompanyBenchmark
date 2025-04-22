@@ -135,16 +135,6 @@ public class DapperDatabaseBenchmark : IDatabaseBenchmark {
                 }
             }
 
-            // Delete removed children
-            var currentChildIds = parent.Children.Select(c => c.Id).ToHashSet();
-            foreach (var childId in existingChildIds.Except(currentChildIds)) {
-                connection.Execute(
-                    "DELETE FROM Child WHERE Id = @Id;",
-                    new { Id = childId },
-                    transaction
-                );
-            }
-
             transaction.Commit();
         } catch {
             transaction.Rollback();

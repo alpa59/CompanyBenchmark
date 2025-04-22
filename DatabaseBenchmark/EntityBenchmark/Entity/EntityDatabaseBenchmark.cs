@@ -43,13 +43,6 @@ namespace EntityBenchmark.Entity {
                     }
                 }
 
-                // Remove deleted children
-                foreach (var child in existingParent.Children.ToList()) {
-                    if (!parent.Children.Any(c => c.Id == child.Id)) {
-                        _context.Children.Remove(child);
-                    }
-                }
-
                 _context.SaveChanges();
             }
         }
